@@ -43,4 +43,5 @@ dependencies {
     kapt "android.arch.persistence.room:compiler:$kotlin_architectureComponentsLibrary"
 
     implementation 'com.google.apis:google-api-services-youtube:v3-rev198-1.23.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

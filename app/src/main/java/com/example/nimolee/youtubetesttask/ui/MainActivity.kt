@@ -14,7 +14,10 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     companion object {
-        val playlist = arrayOf("", "", "")//TODO:Write youtube playlist ID
+        val playlist = arrayOf(
+                "PL4C2OaC1jQqR3ICDBf4j1dH1Fk4uIo-Lx",
+                "PLUk42fEC0DsTELmZi-QQngwzEa-8lM2_M",
+                "PLMC9KNkIncKtPzgY-5rmhvj7fax8fdxoj")
         const val playlistId = "PLAYLIST_ID"
     }
 

@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.nimolee.youtubetesttask.R
 import com.example.nimolee.youtubetesttask.tools.inflate
+import com.example.nimolee.youtubetesttask.tools.load
 
 class VideoListRecyclerAdapter(private val videos: List<VideoInfo>)
     : RecyclerView.Adapter<VideoListRecyclerAdapter.ViewHolder>() {
@@ -17,10 +18,14 @@ class VideoListRecyclerAdapter(private val videos: List<VideoInfo>)
         return ViewHolder(viewHolder)
     }
 
+
+
     override fun getItemCount() = videos.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.thumbnailImage?.setImageBitmap(videos[position].Image)
+        if (videos[position].Image != null) {
+            holder.thumbnailImage?.load(videos[position].Image!!)
+        }
         holder.nameText?.text = videos[position].name
         holder.descriptionText?.text = videos[position].description
     }
