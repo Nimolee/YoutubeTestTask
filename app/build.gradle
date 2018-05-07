@@ -39,4 +39,6 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$kotlin_architectureComponentsLibrary"
     annotationProcessor "android.arch.persistence.room:compiler:$kotlin_architectureComponentsLibrary"
     kapt "android.arch.persistence.room:compiler:$kotlin_architectureComponentsLibrary"
+
+    implementation 'com.google.apis:google-api-services-youtube:v3-rev198-1.23.0'
 }
