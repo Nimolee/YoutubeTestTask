@@ -9,4 +9,4 @@ import android.media.Image
 data class VideoEntity(@PrimaryKey(autoGenerate = true) val id: Int,
                        @ColumnInfo(name = "video_name") val name: String,
                        @ColumnInfo(name = "video_description") val description: String,
-                       @ColumnInfo(name = "video_thumbnail") val thumbnail: Image)
+                       @ColumnInfo(typeAffinity = ColumnInfo.BLOB) val thumbnail: ByteArray)
