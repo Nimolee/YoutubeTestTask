@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     companion object {
         val playlist = arrayOf("", "", "")//TODO:Write youtube playlist ID
-        val playlistId = "PLAYLIST_ID"
+        const val playlistId = "PLAYLIST_ID"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

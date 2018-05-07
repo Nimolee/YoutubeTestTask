@@ -4,11 +4,14 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 import com.example.nimolee.youtubetesttask.data.entity.VideoEntity
+import com.example.nimolee.youtubetesttask.data.network.NetworkDataSource
 import com.example.nimolee.youtubetesttask.tools.DbWorkerThread
+import com.google.api.services.youtube.model.PlaylistItem
 
 class Repository(context: Context) {
     private var videoDataBase: VideoDataBase? = VideoDataBase.getInstance(context)
     private var dbWorkerThread: DbWorkerThread = DbWorkerThread("WorkerThread")
+    private var networkDataSource: NetworkDataSource = NetworkDataSource(context)
 
     init {
         dbWorkerThread.start()
@@ -62,4 +65,15 @@ class Repository(context: Context) {
         val task = Runnable { videoDataBase?.videoDao()?.clearTable() }
         dbWorkerThread.postTask(task)
     }
+
+    fun getPlaylistInfoFromNetwork(playlistId: String): MutableLiveData<ArrayList<PlaylistItem>?> {
+        val resultLiveData = MutableLiveData<ArrayList<PlaylistItem>?>()
+        val task = Runnable {
+            val result: ArrayList<PlaylistItem>? = networkDataSource.getPlaylistInfo(playlistId)
+            resultLiveData.postValue(result)
+        }
+        dbWorkerThread.postTask(task)
+        return resultLiveData
+    }
+
 }
