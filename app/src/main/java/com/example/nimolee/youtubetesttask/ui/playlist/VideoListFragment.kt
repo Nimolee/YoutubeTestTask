@@ -12,7 +12,8 @@ import com.example.nimolee.youtubetesttask.R
 import kotlinx.android.synthetic.main.fragment_videolistitem_list.*
 
 class VideoListFragment : Fragment() {
-    private var playlistId:String? = null
+    private var playlistId: String? = null
+
     companion object {
         const val playlistIdKey = "PLAYLIST_ID"
     }
@@ -33,6 +34,14 @@ class VideoListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        update()
+        swipe_to_refresh.setOnRefreshListener {
+            update()
+        }
+    }
+
+    private fun update() {
+        swipe_to_refresh.isRefreshing = true
         if (playlistId != null) {
             val data = viewModel?.getVideoListInfo(playlistId!!)
             data?.observe(this, Observer {
@@ -47,8 +56,12 @@ class VideoListFragment : Fragment() {
                     }
                     list.layoutManager = LinearLayoutManager(activity?.baseContext)
                     list.adapter = VideoListRecyclerAdapter(items)
+                } else {
+                    //TODO:Show network error placeholder
                 }
+                swipe_to_refresh.isRefreshing = false
             })
         }
     }
+
 }
