@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_videolistitem_list.*
 
 class VideoListFragment : Fragment() {
     private var playlistId: String? = null
-    private var channel: Boolean? = false
+    private var channel: Boolean? = null
 
 
     var viewModel: VideoListViewModel? = null
@@ -39,16 +39,9 @@ class VideoListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (channel != null) {
-            if (channel as Boolean) {
-                updateChannel()
-            } else {
-                update()
-            }
-        } else {
+        if (playlistId.equals("")) {
             showLocalVideos()
-        }
-        swipe_to_refresh.setOnRefreshListener {
+        } else {
             if (channel != null) {
                 if (channel as Boolean) {
                     updateChannel()
@@ -57,6 +50,22 @@ class VideoListFragment : Fragment() {
                 }
             } else {
                 showLocalVideos()
+            }
+        }
+        swipe_to_refresh.setOnRefreshListener {
+            super.onActivityCreated(savedInstanceState)
+            if (playlistId.equals("")) {
+                showLocalVideos()
+            } else {
+                if (channel != null) {
+                    if (channel as Boolean) {
+                        updateChannel()
+                    } else {
+                        update()
+                    }
+                } else {
+                    showLocalVideos()
+                }
             }
         }
     }
@@ -79,9 +88,8 @@ class VideoListFragment : Fragment() {
                     list.layoutManager = LinearLayoutManager(activity?.baseContext)
                     list.adapter = VideoListRecyclerAdapter(items, false)
                 } else {
-                    Toast.makeText(this.context, "Network error.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this.context, "Network error.", Toast.LENGTH_SHORT).show()
                     showLocalVideos()
-                    //TODO:Show network error placeholder
                 }
                 swipe_to_refresh.isRefreshing = false
             })
@@ -94,9 +102,9 @@ class VideoListFragment : Fragment() {
         swipe_to_refresh.isRefreshing = true
         val data = viewModel?.getLocalVideoList()
         data?.observe(this, Observer {
-            if (it != null) {
+            if (it?.size != 0) {
                 val items = ArrayList<VideoInfo>()
-                for (i in it) {
+                for (i in it!!) {
                     val bitmap = BitmapFactory.decodeByteArray(i.thumbnail, 0, i.thumbnail?.size!!)
                     items.add(VideoInfo(
                             i.id,
@@ -109,34 +117,31 @@ class VideoListFragment : Fragment() {
                 list.layoutManager = LinearLayoutManager(activity?.baseContext)
                 list.adapter = VideoListRecyclerAdapter(items, true)
             } else {
-                Toast.makeText(this.context, "Empty database.", Toast.LENGTH_LONG).show()
-                //TODO:Show empty database placeholder
+                Toast.makeText(this.context, "Empty database.", Toast.LENGTH_SHORT).show()
             }
             swipe_to_refresh.isRefreshing = false
         })
-
     }
 
-    fun updateChannel() {
+    private fun updateChannel() {
         swipe_to_refresh.isRefreshing = true
         val data = viewModel?.getChannelListInfo(playlistId!!)
         data?.observe(this, Observer {
             if (it != null) {
                 val items = ArrayList<VideoInfo>()
                 for (i in it) {
-                        items.add(VideoInfo(
-                                i.id.videoId,
-                                i.snippet?.thumbnails?.high?.url,
-                                i.snippet.title,
-                                i.snippet.description,
-                                null))
+                    items.add(VideoInfo(
+                            i.id.videoId,
+                            i.snippet?.thumbnails?.high?.url,
+                            i.snippet.title,
+                            i.snippet.description,
+                            null))
                 }
                 list.layoutManager = LinearLayoutManager(activity?.baseContext)
                 list.adapter = VideoListRecyclerAdapter(items, false)
             } else {
-                Toast.makeText(this.context, "Network error.", Toast.LENGTH_LONG).show()
+                Toast.makeText(this.context, "Network error.", Toast.LENGTH_SHORT).show()
                 showLocalVideos()
-                //TODO:Show network error placeholder
             }
             swipe_to_refresh.isRefreshing = false
         })

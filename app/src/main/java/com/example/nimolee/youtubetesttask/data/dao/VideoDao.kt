@@ -20,10 +20,4 @@ interface VideoDao {
 
     @Delete
     fun removeVideo(videoEntity: VideoEntity)
-
-    @Delete
-    fun removeVideos(videos: ArrayList<VideoEntity>): Int
-
-    @Query("delete from video")
-    fun clearTable()
 }

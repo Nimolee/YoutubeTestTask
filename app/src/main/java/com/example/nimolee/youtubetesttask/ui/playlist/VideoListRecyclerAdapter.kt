@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.example.nimolee.youtubetesttask.R
 import com.example.nimolee.youtubetesttask.constants.Constants.Companion.INTENT_IMAGE_URL
 import com.example.nimolee.youtubetesttask.constants.Constants.Companion.INTENT_VIDEO_DESCRIPTION
+import com.example.nimolee.youtubetesttask.constants.Constants.Companion.INTENT_VIDEO_ID
 import com.example.nimolee.youtubetesttask.constants.Constants.Companion.INTENT_VIDEO_NAME
 import com.example.nimolee.youtubetesttask.constants.Constants.Companion.INTENT_VIDEO_THUMBNAILS
 import com.example.nimolee.youtubetesttask.tools.inflate
@@ -18,7 +19,6 @@ import com.example.nimolee.youtubetesttask.ui.player.PlayerActivity
 
 class VideoListRecyclerAdapter(private val videos: List<VideoInfo>, private val local: Boolean)
     : RecyclerView.Adapter<VideoListRecyclerAdapter.ViewHolder>() {
-    private val INTENT_VIDEO_ID = "INTENT_VIDEO_ID"
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val viewHolder = parent.inflate(R.layout.fragment_videolistitem)

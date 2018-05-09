@@ -28,42 +28,8 @@ class Repository(context: Context) {
         return resultLiveData
     }
 
-    fun getVideo(videoId: Int): LiveData<VideoEntity> {
-        val resultLiveData = MutableLiveData<VideoEntity>()
-        val task = Runnable {
-            val result = videoDataBase?.videoDao()?.getVideo(videoId)
-            resultLiveData.postValue(result)
-        }
-        dbWorkerThread.postTask(task)
-        return resultLiveData
-    }
-
     fun insertVideo(videoEntity: VideoEntity) {
         val task = Runnable { videoDataBase?.videoDao()?.insertVideo(videoEntity) }
-        dbWorkerThread.postTask(task)
-    }
-
-    fun insertVideos(videos: ArrayList<VideoEntity>) {
-        val task = Runnable {
-            for (i in videos) {
-                videoDataBase?.videoDao()?.insertVideo(i)
-            }
-        }
-        dbWorkerThread.postTask(task)
-    }
-
-    fun removeVideo(videoEntity: VideoEntity) {
-        val task = Runnable { videoDataBase?.videoDao()?.removeVideo(videoEntity) }
-        dbWorkerThread.postTask(task)
-    }
-
-    fun removeVideos(videos: ArrayList<VideoEntity>) {
-        val task = Runnable { videoDataBase?.videoDao()?.removeVideos(videos) }
-        dbWorkerThread.postTask(task)
-    }
-
-    fun clearTable() {
-        val task = Runnable { videoDataBase?.videoDao()?.clearTable() }
         dbWorkerThread.postTask(task)
     }
 
@@ -77,7 +43,7 @@ class Repository(context: Context) {
         return resultLiveData
     }
 
-    fun getChannelInfo(channelId:String): MutableLiveData<ArrayList<SearchResult>?> {
+    fun getChannelInfo(channelId: String): MutableLiveData<ArrayList<SearchResult>?> {
         val resultLiveData = MutableLiveData<ArrayList<SearchResult>?>()
         val task = Runnable {
             val result: ArrayList<SearchResult>? = networkDataSource.getChannelInfo(channelId)

@@ -12,5 +12,7 @@ class Constants {
         val API_KEY = "AIzaSyAlzGvttGIvDvvC2cV4CBWrujjKorYgil0"
         val PLAYLIST_ID_KEY = "PLAYLIST_ID"
         val RECOVERY_DIALOG_REQUEST = 1
+        val SAVE_OPEN_DRAVER = "SAVE_OPEN_DRAVER"
+        val FRAGMENT = "FRAGMENT"
     }
 }
