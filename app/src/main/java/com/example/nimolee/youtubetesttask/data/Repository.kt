@@ -17,8 +17,8 @@ class Repository(context: Context) {
         dbWorkerThread.start()
     }
 
-    fun getAllVideo(): LiveData<Array<VideoEntity>> {
-        val resultLiveData = MutableLiveData<Array<VideoEntity>>()
+    fun getAllVideo(): LiveData<List<VideoEntity>> {
+        val resultLiveData = MutableLiveData<List<VideoEntity>>()
         val task = Runnable {
             val result = videoDataBase?.videoDao()?.getAllVideo()
             resultLiveData.postValue(result)

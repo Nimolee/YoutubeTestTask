@@ -2,9 +2,6 @@ package com.example.nimolee.youtubetesttask.ui.playlist
 
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -18,10 +15,6 @@ import com.example.nimolee.youtubetesttask.constants.Constants.Companion.INTENT_
 import com.example.nimolee.youtubetesttask.tools.inflate
 import com.example.nimolee.youtubetesttask.tools.load
 import com.example.nimolee.youtubetesttask.ui.player.PlayerActivity
-import com.google.android.youtube.player.YouTubeThumbnailLoader
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
-import java.lang.Exception
 
 class VideoListRecyclerAdapter(private val videos: List<VideoInfo>)
     : RecyclerView.Adapter<VideoListRecyclerAdapter.ViewHolder>() {

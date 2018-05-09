@@ -10,7 +10,7 @@ import com.example.nimolee.youtubetesttask.data.entity.VideoEntity
 @Dao
 interface VideoDao {
     @Query("select * from video")
-    fun getAllVideo(): Array<VideoEntity>?
+    fun getAllVideo(): List<VideoEntity>?
 
     @Query("select * from video where id = :videoId")
     fun getVideo(videoId: Int): VideoEntity?

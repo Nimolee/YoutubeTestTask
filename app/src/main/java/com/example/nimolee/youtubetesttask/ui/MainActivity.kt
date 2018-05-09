@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.example.nimolee.youtubetesttask.R
+import com.example.nimolee.youtubetesttask.constants.Constants.Companion.LOCAL_VIDEOS
 import com.example.nimolee.youtubetesttask.constants.Constants.Companion.PLAYLIST_ID_KEY
 import com.example.nimolee.youtubetesttask.ui.playlist.VideoListFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -60,6 +61,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.playlist3 -> {
                 argument.putString(PLAYLIST_ID_KEY, playlist[2])
+            }
+            R.id.localVideos -> {
+                argument.putString(PLAYLIST_ID_KEY, LOCAL_VIDEOS    )
             }
         }
         val fragment = VideoListFragment()

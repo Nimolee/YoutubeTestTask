@@ -13,6 +13,9 @@
         <item
             android:id="@+id/playlist3"
             android:title="Playlist 3" />
+        <item
+            android:id="@+id/localVideos"
+            android:title="LocalVideos" />
     </group>
 
 </menu>
