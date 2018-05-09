@@ -7,6 +7,7 @@ import com.example.nimolee.youtubetesttask.data.entity.VideoEntity
 import com.example.nimolee.youtubetesttask.data.network.NetworkDataSource
 import com.example.nimolee.youtubetesttask.tools.DbWorkerThread
 import com.google.api.services.youtube.model.PlaylistItem
+import com.google.api.services.youtube.model.SearchResult
 
 class Repository(context: Context) {
     private var videoDataBase: VideoDataBase? = VideoDataBase.getInstance(context)
@@ -70,6 +71,16 @@ class Repository(context: Context) {
         val resultLiveData = MutableLiveData<ArrayList<PlaylistItem>?>()
         val task = Runnable {
             val result: ArrayList<PlaylistItem>? = networkDataSource.getPlaylistInfo(playlistId)
+            resultLiveData.postValue(result)
+        }
+        dbWorkerThread.postTask(task)
+        return resultLiveData
+    }
+
+    fun getChannelInfo(channelId:String): MutableLiveData<ArrayList<SearchResult>?> {
+        val resultLiveData = MutableLiveData<ArrayList<SearchResult>?>()
+        val task = Runnable {
+            val result: ArrayList<SearchResult>? = networkDataSource.getChannelInfo(channelId)
             resultLiveData.postValue(result)
         }
         dbWorkerThread.postTask(task)

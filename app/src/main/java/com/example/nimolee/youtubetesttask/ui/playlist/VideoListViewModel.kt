@@ -7,6 +7,7 @@ import android.content.Context
 import com.example.nimolee.youtubetesttask.data.Repository
 import com.example.nimolee.youtubetesttask.data.entity.VideoEntity
 import com.google.api.services.youtube.model.PlaylistItem
+import com.google.api.services.youtube.model.SearchResult
 
 class VideoListViewModel : ViewModel() {
     private lateinit var repo: Repository
@@ -21,5 +22,9 @@ class VideoListViewModel : ViewModel() {
 
     fun getLocalVideoList(): LiveData<List<VideoEntity>> {
         return repo.getAllVideo()
+    }
+
+    fun getChannelListInfo(channelId: String): MutableLiveData<ArrayList<SearchResult>?> {
+        return repo.getChannelInfo(channelId)
     }
 }

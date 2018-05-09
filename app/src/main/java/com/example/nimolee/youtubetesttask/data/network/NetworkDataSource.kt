@@ -8,6 +8,7 @@ import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.youtube.YouTube
 import com.google.api.services.youtube.model.PlaylistItem
+import com.google.api.services.youtube.model.SearchResult
 
 class NetworkDataSource(context: Context) {
     private val youTube: YouTube = YouTube.Builder(NetHttpTransport(), JacksonFactory(), HttpRequestInitializer {
@@ -20,6 +21,28 @@ class NetworkDataSource(context: Context) {
             val list = youTube.playlistItems().list("snippet,contentDetails")
             list.playlistId = playlistId
             list.fields = "items(contentDetails/videoId,snippet/title,snippet/description,snippet/thumbnails/standard/url)"
+            list.key = API_KEY
+            list.maxResults = 50
+            var nextToken: String? = ""
+            do {
+                list.pageToken = nextToken
+                val playlistResult = list.execute()
+                result.addAll(playlistResult.items)
+                nextToken = playlistResult.nextPageToken
+            } while (nextToken != null)
+            return result
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
+    fun getChannelInfo(channelId: String): ArrayList<SearchResult>? {
+        val result: ArrayList<SearchResult> = ArrayList()
+        try {
+            val list = youTube.search().list("snippet")
+            list.channelId = channelId
+            list.order = "date"
+            list.fields = "items(id/videoId,snippet/title,snippet/description,snippet/thumbnails/high/url)"
             list.key = API_KEY
             list.maxResults = 50
             var nextToken: String? = ""

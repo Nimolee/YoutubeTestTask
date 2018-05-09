@@ -11,13 +11,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.nimolee.youtubetesttask.R
-import com.example.nimolee.youtubetesttask.constants.Constants
+import com.example.nimolee.youtubetesttask.constants.Constants.Companion.CHANNEL
 import com.example.nimolee.youtubetesttask.constants.Constants.Companion.LOCAL_VIDEOS
+import com.example.nimolee.youtubetesttask.constants.Constants.Companion.PLAYLIST_ID_KEY
 import kotlinx.android.synthetic.main.fragment_videolistitem_list.*
 
 
 class VideoListFragment : Fragment() {
     private var playlistId: String? = null
+    private var channel: Boolean? = false
 
 
     var viewModel: VideoListViewModel? = null
@@ -26,7 +28,8 @@ class VideoListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(VideoListViewModel::class.java)
         viewModel?.init(activity!!.baseContext)
-        playlistId = arguments?.getString(Constants.PLAYLIST_ID_KEY)
+        playlistId = arguments?.getString(PLAYLIST_ID_KEY)
+        channel = arguments?.getBoolean(CHANNEL)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -36,9 +39,25 @@ class VideoListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        update()
+        if (channel != null) {
+            if (channel as Boolean) {
+                updateChannel()
+            } else {
+                update()
+            }
+        } else {
+            showLocalVideos()
+        }
         swipe_to_refresh.setOnRefreshListener {
-            update()
+            if (channel != null) {
+                if (channel as Boolean) {
+                    updateChannel()
+                } else {
+                    update()
+                }
+            } else {
+                showLocalVideos()
+            }
         }
     }
 
@@ -96,6 +115,31 @@ class VideoListFragment : Fragment() {
             swipe_to_refresh.isRefreshing = false
         })
 
+    }
+
+    fun updateChannel() {
+        swipe_to_refresh.isRefreshing = true
+        val data = viewModel?.getChannelListInfo(playlistId!!)
+        data?.observe(this, Observer {
+            if (it != null) {
+                val items = ArrayList<VideoInfo>()
+                for (i in it) {
+                        items.add(VideoInfo(
+                                i.id.videoId,
+                                i.snippet?.thumbnails?.high?.url,
+                                i.snippet.title,
+                                i.snippet.description,
+                                null))
+                }
+                list.layoutManager = LinearLayoutManager(activity?.baseContext)
+                list.adapter = VideoListRecyclerAdapter(items, false)
+            } else {
+                Toast.makeText(this.context, "Network error.", Toast.LENGTH_LONG).show()
+                showLocalVideos()
+                //TODO:Show network error placeholder
+            }
+            swipe_to_refresh.isRefreshing = false
+        })
     }
 
 }
