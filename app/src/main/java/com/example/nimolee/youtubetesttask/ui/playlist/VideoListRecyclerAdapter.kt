@@ -2,17 +2,26 @@ package com.example.nimolee.youtubetesttask.ui.playlist
 
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.nimolee.youtubetesttask.R
+import com.example.nimolee.youtubetesttask.constants.Constants.Companion.INTENT_IMAGE_URL
 import com.example.nimolee.youtubetesttask.constants.Constants.Companion.INTENT_VIDEO_DESCRIPTION
 import com.example.nimolee.youtubetesttask.constants.Constants.Companion.INTENT_VIDEO_NAME
+import com.example.nimolee.youtubetesttask.constants.Constants.Companion.INTENT_VIDEO_THUMBNAILS
 import com.example.nimolee.youtubetesttask.tools.inflate
 import com.example.nimolee.youtubetesttask.tools.load
 import com.example.nimolee.youtubetesttask.ui.player.PlayerActivity
+import com.google.android.youtube.player.YouTubeThumbnailLoader
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.Target
+import java.lang.Exception
 
 class VideoListRecyclerAdapter(private val videos: List<VideoInfo>)
     : RecyclerView.Adapter<VideoListRecyclerAdapter.ViewHolder>() {
@@ -53,6 +62,8 @@ class VideoListRecyclerAdapter(private val videos: List<VideoInfo>)
                 openNewPlayer.putExtra(INTENT_VIDEO_ID, item.Id)
                 openNewPlayer.putExtra(INTENT_VIDEO_NAME, item.name)
                 openNewPlayer.putExtra(INTENT_VIDEO_DESCRIPTION, item.description)
+                openNewPlayer.putExtra(INTENT_VIDEO_THUMBNAILS, item.Image)
+                openNewPlayer.putExtra(INTENT_IMAGE_URL,item.Image)
                 context.startActivity(openNewPlayer)
             }
         }
