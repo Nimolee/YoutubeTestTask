@@ -2,6 +2,7 @@ package com.example.nimolee.youtubetesttask.ui.playlist
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import com.example.nimolee.youtubetesttask.R
 import com.example.nimolee.youtubetesttask.constants.Constants
 import com.example.nimolee.youtubetesttask.constants.Constants.Companion.LOCAL_VIDEOS
 import kotlinx.android.synthetic.main.fragment_videolistitem_list.*
+
 
 class VideoListFragment : Fragment() {
     private var playlistId: String? = null
@@ -52,10 +54,11 @@ class VideoListFragment : Fragment() {
                                 i.contentDetails.videoId,
                                 i.snippet?.thumbnails?.standard?.url,
                                 i.snippet.title,
-                                i.snippet.description))
+                                i.snippet.description,
+                                null))
                     }
                     list.layoutManager = LinearLayoutManager(activity?.baseContext)
-                    list.adapter = VideoListRecyclerAdapter(items)
+                    list.adapter = VideoListRecyclerAdapter(items, false)
                 } else {
                     Toast.makeText(this.context, "Network error.", Toast.LENGTH_LONG).show()
                     showLocalVideos()
@@ -75,14 +78,17 @@ class VideoListFragment : Fragment() {
             if (it != null) {
                 val items = ArrayList<VideoInfo>()
                 for (i in it) {
+                    val bitmap = BitmapFactory.decodeByteArray(i.thumbnail, 0, i.thumbnail?.size!!)
                     items.add(VideoInfo(
                             i.id,
                             i.url,
                             i.name,
-                            i.description))
+                            i.description,
+                            bitmap
+                    ))
                 }
                 list.layoutManager = LinearLayoutManager(activity?.baseContext)
-                list.adapter = VideoListRecyclerAdapter(items)
+                list.adapter = VideoListRecyclerAdapter(items, true)
             } else {
                 Toast.makeText(this.context, "Empty database.", Toast.LENGTH_LONG).show()
                 //TODO:Show empty database placeholder

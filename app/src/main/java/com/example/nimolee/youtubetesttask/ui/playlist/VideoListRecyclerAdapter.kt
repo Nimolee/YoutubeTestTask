@@ -16,7 +16,7 @@ import com.example.nimolee.youtubetesttask.tools.inflate
 import com.example.nimolee.youtubetesttask.tools.load
 import com.example.nimolee.youtubetesttask.ui.player.PlayerActivity
 
-class VideoListRecyclerAdapter(private val videos: List<VideoInfo>)
+class VideoListRecyclerAdapter(private val videos: List<VideoInfo>, private val local: Boolean)
     : RecyclerView.Adapter<VideoListRecyclerAdapter.ViewHolder>() {
     private val INTENT_VIDEO_ID = "INTENT_VIDEO_ID"
 
@@ -32,7 +32,7 @@ class VideoListRecyclerAdapter(private val videos: List<VideoInfo>)
     }
 
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+    inner class ViewHolder(private val mView: View) : RecyclerView.ViewHolder(mView) {
         private var thumbnailImage: ImageView? = null
         private var nameText: TextView? = null
         private var descriptionText: TextView? = null
@@ -45,7 +45,11 @@ class VideoListRecyclerAdapter(private val videos: List<VideoInfo>)
 
         fun bind(item: VideoInfo) {
             if (item.Image != null) {
-                thumbnailImage?.load(item.Image)
+                if (local) {
+                    thumbnailImage?.setImageBitmap(item.bitmap)
+                } else {
+                    thumbnailImage?.load(item.Image)
+                }
             }
             nameText?.text = item.name
             descriptionText?.text = item.description
@@ -56,7 +60,7 @@ class VideoListRecyclerAdapter(private val videos: List<VideoInfo>)
                 openNewPlayer.putExtra(INTENT_VIDEO_NAME, item.name)
                 openNewPlayer.putExtra(INTENT_VIDEO_DESCRIPTION, item.description)
                 openNewPlayer.putExtra(INTENT_VIDEO_THUMBNAILS, item.Image)
-                openNewPlayer.putExtra(INTENT_IMAGE_URL,item.Image)
+                openNewPlayer.putExtra(INTENT_IMAGE_URL, item.Image)
                 context.startActivity(openNewPlayer)
             }
         }
