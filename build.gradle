@@ -9,7 +9,6 @@ buildscript {
         lifecycleVersion = "1.1.1"
     }
     repositories {
-        mavenCentral()
         google()
         jcenter()
     }

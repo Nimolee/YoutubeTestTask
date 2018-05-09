@@ -2,6 +2,7 @@ package com.example.nimolee.youtubetesttask.data.network
 
 import android.content.Context
 import com.example.nimolee.youtubetesttask.R
+import com.example.nimolee.youtubetesttask.constants.Constants.Companion.API_KEY
 import com.google.api.client.http.HttpRequestInitializer
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.jackson2.JacksonFactory
@@ -11,10 +12,6 @@ import com.google.api.services.youtube.model.PlaylistItem
 class NetworkDataSource(context: Context) {
     private val youTube: YouTube = YouTube.Builder(NetHttpTransport(), JacksonFactory(), HttpRequestInitializer {
     }).setApplicationName(context.getString(R.string.app_name)).build()
-
-    companion object {
-        val API_KEY = "AIzaSyAlzGvttGIvDvvC2cV4CBWrujjKorYgil0"
-    }
 
 
     fun getPlaylistInfo(playlistId: String): ArrayList<PlaylistItem>? {

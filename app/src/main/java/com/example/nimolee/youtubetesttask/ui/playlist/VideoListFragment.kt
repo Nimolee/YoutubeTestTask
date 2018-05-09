@@ -9,14 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.nimolee.youtubetesttask.R
+import com.example.nimolee.youtubetesttask.constants.Constants
 import kotlinx.android.synthetic.main.fragment_videolistitem_list.*
 
 class VideoListFragment : Fragment() {
     private var playlistId: String? = null
 
-    companion object {
-        const val playlistIdKey = "PLAYLIST_ID"
-    }
 
     var viewModel: VideoListViewModel? = null
 
@@ -24,7 +22,7 @@ class VideoListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(VideoListViewModel::class.java)
         viewModel?.init(activity!!.baseContext)
-        playlistId = arguments?.getString(playlistIdKey)
+        playlistId = arguments?.getString(Constants.PLAYLIST_ID_KEY)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

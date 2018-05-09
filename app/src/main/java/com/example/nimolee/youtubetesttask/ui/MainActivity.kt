@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.example.nimolee.youtubetesttask.R
+import com.example.nimolee.youtubetesttask.constants.Constants.Companion.PLAYLIST_ID_KEY
 import com.example.nimolee.youtubetesttask.ui.playlist.VideoListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -18,7 +19,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 "PL4C2OaC1jQqR3ICDBf4j1dH1Fk4uIo-Lx",
                 "PLUk42fEC0DsTELmZi-QQngwzEa-8lM2_M",
                 "PLMC9KNkIncKtPzgY-5rmhvj7fax8fdxoj")
-        const val playlistId = "PLAYLIST_ID"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         val arguments = Bundle()
-        arguments.putString(playlistId, playlist[0])
+        arguments.putString(PLAYLIST_ID_KEY, playlist[0])
         val fragment = VideoListFragment()
         fragment.arguments = arguments
         fragmentTransaction.add(R.id.fragment_view, fragment)
@@ -53,13 +53,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val argument = Bundle()
         when (item.itemId) {
             R.id.playlist1 -> {
-                argument.putString(playlistId, playlist[0])
+                argument.putString(PLAYLIST_ID_KEY, playlist[0])
             }
             R.id.playlist2 -> {
-                argument.putString(playlistId, playlist[1])
+                argument.putString(PLAYLIST_ID_KEY, playlist[1])
             }
             R.id.playlist3 -> {
-                argument.putString(playlistId, playlist[2])
+                argument.putString(PLAYLIST_ID_KEY, playlist[2])
             }
         }
         val fragment = VideoListFragment()
