@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.nimolee.youtubetesttask.R
+import com.example.nimolee.youtubetesttask.constants.Constants.Companion.INTENT_VIDEO_DESCRIPTION
+import com.example.nimolee.youtubetesttask.constants.Constants.Companion.INTENT_VIDEO_NAME
 import com.example.nimolee.youtubetesttask.tools.inflate
 import com.example.nimolee.youtubetesttask.tools.load
 import com.example.nimolee.youtubetesttask.ui.player.PlayerActivity
@@ -41,7 +43,7 @@ class VideoListRecyclerAdapter(private val videos: List<VideoInfo>)
 
         fun bind(item: VideoInfo) {
             if (item.Image != null) {
-                thumbnailImage?.load(item.Image!!)
+                thumbnailImage?.load(item.Image)
             }
             nameText?.text = item.name
             descriptionText?.text = item.description
@@ -49,6 +51,8 @@ class VideoListRecyclerAdapter(private val videos: List<VideoInfo>)
                 val context = itemView.context
                 val openNewPlayer = Intent(context, PlayerActivity::class.java)
                 openNewPlayer.putExtra(INTENT_VIDEO_ID, item.Id)
+                openNewPlayer.putExtra(INTENT_VIDEO_NAME, item.name)
+                openNewPlayer.putExtra(INTENT_VIDEO_DESCRIPTION, item.description)
                 context.startActivity(openNewPlayer)
             }
         }
