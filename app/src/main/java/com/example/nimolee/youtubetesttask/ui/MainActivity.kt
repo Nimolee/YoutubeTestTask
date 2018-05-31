@@ -11,7 +11,7 @@ import com.example.nimolee.youtubetesttask.R
 import com.example.nimolee.youtubetesttask.constants.Constants.Companion.CHANNEL
 import com.example.nimolee.youtubetesttask.constants.Constants.Companion.FRAGMENT
 import com.example.nimolee.youtubetesttask.constants.Constants.Companion.PLAYLIST_ID_KEY
-import com.example.nimolee.youtubetesttask.constants.Constants.Companion.SAVE_OPEN_DRAVER
+import com.example.nimolee.youtubetesttask.constants.Constants.Companion.SAVE_OPEN_DRAWER
 import com.example.nimolee.youtubetesttask.ui.playlist.VideoListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -31,8 +31,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
         drawer_layout.openDrawer(GravityCompat.START)
         if (savedInstanceState != null) {
-            changeFragmentInActivity(supportFragmentManager.getFragment(savedInstanceState, FRAGMENT))
-            if (savedInstanceState.getBoolean(SAVE_OPEN_DRAVER)) {
+            if (supportFragmentManager.getFragment(savedInstanceState, FRAGMENT) != null) {
+                changeFragmentInActivity(supportFragmentManager.getFragment(savedInstanceState, FRAGMENT))
+            }
+            if (savedInstanceState.getBoolean(SAVE_OPEN_DRAWER)) {
                 drawer_layout.openDrawer(GravityCompat.START)
             } else {
                 drawer_layout.closeDrawer(GravityCompat.START)
@@ -78,7 +80,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        supportFragmentManager.putFragment(outState, FRAGMENT, supportFragmentManager.fragments?.get(0))
-        outState?.putBoolean(SAVE_OPEN_DRAVER, drawer_layout.isDrawerOpen(GravityCompat.START))
+        if (supportFragmentManager.fragments != null) {
+            if (!supportFragmentManager.fragments?.isEmpty()!!)
+                supportFragmentManager.putFragment(outState, FRAGMENT, supportFragmentManager.fragments?.get(0))
+        }
+        outState?.putBoolean(SAVE_OPEN_DRAWER, drawer_layout.isDrawerOpen(GravityCompat.START))
     }
 }
